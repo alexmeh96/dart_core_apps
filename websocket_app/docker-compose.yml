@@ -1,0 +1,13 @@
+version: "3.6"
+
+services:
+  app:
+    image: test_app:v1
+    build:
+      context: ../../
+      dockerfile: ./bin/example_1/Dockerfile
+    environment:
+      - MY_VAR=alexcoder
+    container_name: "${CONT_NAME}"
+    env_file:
+      - .my_env
