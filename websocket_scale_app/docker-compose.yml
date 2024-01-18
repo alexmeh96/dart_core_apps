@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  lb:
+    image: haproxy
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+    depends_on:
+      - app1
+      - app2
+      - app3
+    networks:
+      - myNetwork
+  app1:
+    image: test_app:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rds
+    networks:
+      - myNetwork
+    environment:
+      - REDIS_HOST=rds
+      - MY_HOST=app1
+  app2:
+    image: test_app:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rds
+    networks:
+      - myNetwork
+    environment:
+      - REDIS_HOST=rds
+      - MY_HOST=app2
+  app3:
+    image: test_app:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rds
+    networks:
+      - myNetwork
+    environment:
+      - REDIS_HOST=rds
+      - MY_HOST=app3
+  rds:
+    image: redis
+    networks:
+      - myNetwork
+
+networks:
+  myNetwork:
+    driver: bridge

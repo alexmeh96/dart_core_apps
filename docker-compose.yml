@@ -2,12 +2,7 @@ version: "3"
 
 services:
   app:
-    image: dart_test_app:v1
+    image: dart_test_app:v2
     build:
       context: websocket_app/.
       dockerfile: Dockerfile
-    container_name: "${CONT_NAME}"
-    environment:
-      - MY_VAR=alexcoder
-    env_file:
-      - .my_env
