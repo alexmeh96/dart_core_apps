@@ -1,0 +1,9 @@
+name: jwt_verify_app
+version: 1.0.0
+
+environment:
+  sdk: ^3.2.4
+
+dependencies:
+  dart_jsonwebtoken: ^2.12.2
+
