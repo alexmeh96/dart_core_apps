@@ -1,0 +1,7 @@
+class MyThreeTestService {
+
+}
+
+void myFun() {
+
+}
