@@ -9,10 +9,10 @@ class Author {
 
 @Author('John Doe', 2022)
 class Book {
-  final String title;
-  final int page;
+  String? title;
+  int? page;
 
-  Book(this.title, this.page);
+  // Book(this.title, this.page);
 
   void info() {
     print('title: $title; page: $page');
@@ -20,7 +20,8 @@ class Book {
 }
 
 void main() {
-  var book = Book('Harry Potter', 350);
+  // Object book = Book('Harry Potter', 350);
+  Object book = Book();
 
   // Получаем зеркало для объекта book
   var bookMirror = reflect(book);
@@ -29,7 +30,7 @@ void main() {
   print(bookMirror.type.simpleName); // Person
 
   // Получаем список полей и их значений
-  var fields = bookMirror.type.instanceMembers.values.whereType<VariableMirror>();
+  var fields = bookMirror.type.declarations.values.whereType<VariableMirror>();
   fields.forEach((field) {
     var value = bookMirror.getField(field.simpleName).reflectee;
     print('${field.simpleName}: $value');
