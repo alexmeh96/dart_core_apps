@@ -14,8 +14,10 @@ class Book {
 
   // Book(this.title, this.page);
 
-  void info() {
+  String info() {
     print('title: $title; page: $page');
+
+    return "finish";
   }
 }
 
@@ -38,7 +40,8 @@ void main() {
 
   // Вызываем метод info динамически
   var greetMethod = bookMirror.type.instanceMembers.values.firstWhere((m) => m.simpleName == #info);
-  bookMirror.invoke(greetMethod.simpleName, []);
+  var resultMirror = bookMirror.invoke(greetMethod.simpleName, []);
+  print(resultMirror.reflectee);
 
   // Получение зеркала класса Book
   var classMirror = reflectClass(Book);

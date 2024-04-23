@@ -1,12 +1,21 @@
 import 'dart:mirrors';
 
 import 'package:ioc/src/annotations.dart';
+import 'package:ioc/src/handlers.dart';
 
 class Ioc {
   bool get isInit => false;
   List<ClassMirror> classList = [];
-
   Map<String, Object> container = {};
+  List<MethodOption> methods = [];
+
+  void init(List<String> packagesPrefix) {
+    findClassesFromPackages(packagesPrefix);
+    findComponentClasses();
+    resolveInject();
+    resolveMethods();
+  }
+
 
   List<ClassMirror> findClassesFromPackages(List<String> packagesPrefix) {
     var mirrorSystem = currentMirrorSystem();
@@ -16,7 +25,8 @@ class Ioc {
         // Проверка, что URI библиотеки начинается с заданного префикса
         if (uri.toString().startsWith(packagePrefix)) {
           // Получение списка классов в библиотеке
-          var iterable = libraryMirror.declarations.values.whereType<ClassMirror>();
+          var iterable =
+              libraryMirror.declarations.values.whereType<ClassMirror>();
           classList.addAll(iterable);
         }
       });
@@ -29,11 +39,11 @@ class Ioc {
     for (var classMirror in classList) {
       for (var instanceMirror in classMirror.metadata) {
         if (instanceMirror.reflectee is Component) {
-          container[classMirror.reflectedType.toString()] = classMirror.newInstance(Symbol.empty, []).reflectee;
+          container[classMirror.reflectedType.toString()] =
+              classMirror.newInstance(Symbol.empty, []).reflectee;
           break;
         }
       }
-
     }
 
     return container;
@@ -42,7 +52,6 @@ class Ioc {
   void resolveInject() {
     container.forEach((id, instance) {
       var classMirror = reflect(instance);
-
       var fields = classMirror.type.declarations.values.whereType<VariableMirror>();
 
       fields.forEach((field) {
@@ -61,7 +70,27 @@ class Ioc {
     });
   }
 
-  void checkTransaction() {
+  void resolveMethods() {
+    container.forEach((id, instance) {
+      var instanceMirror = reflect(instance);
+      var methodMirrors = instanceMirror.type.instanceMembers.values.toList();
+
+      for (var methodMirror in methodMirrors) {
+        for (var instance in methodMirror.metadata) {
+          if (instance.reflectee is TcpHandler) {
+            methods.add(MethodOption(instanceMirror, methodMirror.simpleName));
+            break;
+          }
+        }
+      }
+    });
+  }
+
+
+  //---------------------------------------------------------------------------------------------------------
+
+  List<MethodOption> findTcpHandlers() {
+    List<MethodOption> methodsOptions = [];
     for (var classMirror in classList) {
       for (var instanceMirror in classMirror.metadata) {
         if (instanceMirror.reflectee is Component) {
@@ -69,17 +98,26 @@ class Ioc {
 
           for (var methodMirror in methodMirrors) {
             for (var instance in methodMirror.metadata) {
-              if (instance.reflectee is Transaction) {
-
+              if (instance.reflectee is TcpHandler) {
+                // todo:
+                break;
               }
             }
-           }
-          // bookMirror.invoke(greetMethod.simpleName, []);
-          print("");
+          }
         }
       }
-
     }
+
+    return methodsOptions;
   }
 
+  void checkTransaction(List<MethodMirror> methodMirrors) {
+    for (var methodMirror in methodMirrors) {
+      for (var instance in methodMirror.metadata) {
+        if (instance.reflectee is Transaction) {
+          // todo: handle transactional
+        }
+      }
+    }
+  }
 }

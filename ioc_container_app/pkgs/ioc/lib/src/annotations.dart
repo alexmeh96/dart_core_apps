@@ -14,3 +14,6 @@ class Controller {
   const Controller();
 }
 
+class TcpHandler {
+  const TcpHandler();
+}

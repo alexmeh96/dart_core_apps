@@ -1,10 +1,11 @@
-import 'package:ioc/ioc.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:ioc/ioc.dart';
 import 'two_test_service.dart';
 
 @Component()
 class OneTestService {
-
   int myField = 5;
 
   @Inject()
@@ -15,6 +16,13 @@ class OneTestService {
       service?.method();
     }
     print("method from OneTestService");
+  }
+
+  @TcpHandler()
+  void handler(Socket socket, Uint8List data) {
+    var message = String.fromCharCodes(data).trim();
+    print("handler: $message");
+    socket.write("handler: $message\n");
   }
 }
 

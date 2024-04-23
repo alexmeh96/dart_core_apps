@@ -9,15 +9,18 @@ import 'test/one_test_service.dart';
 void main() {
   Ioc ioc = Ioc();
   List<String> packages = ["file://", "package:app1"];
-  var classMirrors = ioc.findClassesFromPackages(packages);
-  ioc.checkTransaction();
-  var container = ioc.findComponentClasses();
+  ioc.init(packages);
 
-  var oneTestService = container["OneTestService"] as OneTestService;
-  oneTestService.method();
-  print("--------------------------------");
-  ioc.resolveInject();
-  oneTestService.method();
+  // var container = ioc.findComponentClasses();
+  // var oneTestService = container["OneTestService"] as OneTestService;
+  // oneTestService.method();
+  // print("--------------------------------");
+  // ioc.resolveInject();
+  // oneTestService.method();
+
+  var tcpServer = TcpServer("localhost", 9999);
+  tcpServer.handlers = ioc.methods;
+  tcpServer.run();
 
   print(ioc.isInit);
 }
