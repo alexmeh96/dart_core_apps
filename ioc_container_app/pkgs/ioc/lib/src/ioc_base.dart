@@ -73,7 +73,11 @@ class Ioc {
       for (var methodMirror in methodMirrors) {
         for (var instance in methodMirror.metadata) {
           if (instance.reflectee is TcpHandler) {
-            methods.add(MethodOption(instanceMirror, methodMirror.simpleName));
+            methods.add(MethodOption(instanceMirror, methodMirror.simpleName, MethodType.TCP_HANDLER));
+            break;
+          }
+          if (instance.reflectee is HttpHandler) {
+            methods.add(MethodOption(instanceMirror, methodMirror.simpleName, MethodType.HTTP_HANDLER));
             break;
           }
         }
