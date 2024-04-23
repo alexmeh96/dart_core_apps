@@ -10,7 +10,6 @@ class TwoTestService {
     print("method from twoTestService");
   }
 
-  @Transaction()
   void transactMethod() {
     print("transactMethod");
   }

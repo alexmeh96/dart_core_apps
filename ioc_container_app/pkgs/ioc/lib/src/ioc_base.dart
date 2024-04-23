@@ -12,12 +12,11 @@ class Ioc {
   void init(List<String> packagesPrefix) {
     findClassesFromPackages(packagesPrefix);
     findComponentClasses();
-    resolveInject();
+    resolveDependencies();
     resolveMethods();
   }
 
-
-  List<ClassMirror> findClassesFromPackages(List<String> packagesPrefix) {
+  void findClassesFromPackages(List<String> packagesPrefix) {
     var mirrorSystem = currentMirrorSystem();
 
     for (var packagePrefix in packagesPrefix) {
@@ -31,11 +30,9 @@ class Ioc {
         }
       });
     }
-
-    return classList;
   }
 
-  Map<String, Object> findComponentClasses() {
+  void findComponentClasses() {
     for (var classMirror in classList) {
       for (var instanceMirror in classMirror.metadata) {
         if (instanceMirror.reflectee is Component) {
@@ -45,11 +42,9 @@ class Ioc {
         }
       }
     }
-
-    return container;
   }
 
-  void resolveInject() {
+  void resolveDependencies() {
     container.forEach((id, instance) {
       var classMirror = reflect(instance);
       var fields = classMirror.type.declarations.values.whereType<VariableMirror>();
@@ -109,15 +104,5 @@ class Ioc {
     }
 
     return methodsOptions;
-  }
-
-  void checkTransaction(List<MethodMirror> methodMirrors) {
-    for (var methodMirror in methodMirrors) {
-      for (var instance in methodMirror.metadata) {
-        if (instance.reflectee is Transaction) {
-          // todo: handle transactional
-        }
-      }
-    }
   }
 }
