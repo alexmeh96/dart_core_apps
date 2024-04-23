@@ -19,12 +19,16 @@ void main() {
   // oneTestService.method();
 
   // var tcpServer = TcpServer("localhost", 9999);
-  // tcpServer.handlers = ioc.methods;
+  // tcpServer.handlers = ioc.methods.where((option) => option.type == MethodType.TCP_HANDLER).toList();
   // tcpServer.run();
 
-  var baseHttpServer = BaseHttpServer("localhost", 9999);
-  baseHttpServer.handlers = ioc.methods.where((option) => option.type == MethodType.HTTP_HANDLER).toList();
-  baseHttpServer.run();
+  var websocketServer = WebsocketServer("localhost", 9999);
+  websocketServer.handlers = ioc.methods.where((option) => option.type == MethodType.WEBSOCKET_HANDLER).toList();
+  websocketServer.run();
+
+  // var baseHttpServer = BaseHttpServer("localhost", 9999);
+  // baseHttpServer.handlers = ioc.methods.where((option) => option.type == MethodType.HTTP_HANDLER).toList();
+  // baseHttpServer.run();
 
   print(ioc.isInit);
 }

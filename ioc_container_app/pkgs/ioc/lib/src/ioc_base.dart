@@ -80,6 +80,11 @@ class Ioc {
             methods.add(MethodOption(instanceMirror, methodMirror.simpleName, MethodType.HTTP_HANDLER));
             break;
           }
+          if (instance.reflectee is WebsocketHandler) {
+            methods.add(MethodOption(instanceMirror, methodMirror.simpleName, MethodType.WEBSOCKET_HANDLER));
+            break;
+          }
+
         }
       }
     });

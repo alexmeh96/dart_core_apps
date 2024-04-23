@@ -18,6 +18,10 @@ class TcpHandler {
   const TcpHandler();
 }
 
+class WebsocketHandler {
+  const WebsocketHandler();
+}
+
 class HttpHandler {
   const HttpHandler();
 }

@@ -28,6 +28,13 @@ class TwoTestService {
     socket.write("tcpHandler2: $message\n");
   }
 
+  @WebsocketHandler()
+  void websocketHandler(dynamic message, WebSocket socket) {
+    print("tcpHandler2: $message");
+
+    socket.add("tcpHandler2: $message\n");
+  }
+
   @HttpHandler()
   void httpHandler(HttpRequest req) {
     print("httpHandler: ${req.method}: ${req.uri.path}");

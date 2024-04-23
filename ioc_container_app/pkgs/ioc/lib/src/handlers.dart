@@ -2,6 +2,7 @@ import 'dart:mirrors';
 
 enum MethodType {
   TCP_HANDLER,
+  WEBSOCKET_HANDLER,
   HTTP_HANDLER;
 }
 

@@ -16,7 +16,7 @@ class TcpServer {
     serverSocket.listen((socket) {
       socket.listen((data) {
         for (var handler in handlers) {
-          handler.invoke([socket, data]);
+          handler.invoke([data, socket]);
         }
       });
     });
