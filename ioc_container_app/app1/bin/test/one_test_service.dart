@@ -19,7 +19,7 @@ class OneTestService {
   }
 
   @TcpHandler()
-  void handler(Socket socket, Uint8List data) {
+  void handler(Uint8List data, Socket socket) {
     var message = String.fromCharCodes(data).trim();
     print("handler: $message");
     socket.write("handler: $message\n");
