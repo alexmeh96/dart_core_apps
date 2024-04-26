@@ -10,6 +10,7 @@ environment:
 dependencies:
   async: ^2.11.0
   buffer: ^1.2.3
+  crypto: ^3.0.3
   sasl_scram: ^0.1.1
   stream_channel: ^2.1.2
 
