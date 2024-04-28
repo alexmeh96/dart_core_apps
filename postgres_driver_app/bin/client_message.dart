@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:buffer/buffer.dart';
 
 abstract class ClientMessageFormat {

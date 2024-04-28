@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-void main() {
+void main1() {
   // Целое число
   // int number = 196608;
   int number = 26;

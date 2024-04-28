@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:buffer/buffer.dart';
 import 'package:sasl_scram/sasl_scram.dart';
 
-import 'authentication_message.dart';
-import 'startup_message.dart';
+import 'client_message.dart';
+import 'server_message.dart';
 
 class PgSaslAuthenticator {
   final SaslAuthenticator authenticator;
@@ -14,7 +14,7 @@ class PgSaslAuthenticator {
 
   PgSaslAuthenticator(this.authenticator, this.socket);
 
-  void onMessage(AuthenticationMessage message) {
+  void onMessage(AuthMessage message) {
     var writer = ByteDataWriter();
     switch (message.type) {
       case AuthenticationMessageType.sasl:
